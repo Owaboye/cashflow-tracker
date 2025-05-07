@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <% if(cashItem.type == 'Income') { %>
+        <tr class="table-striped">
+            <td scope="row"><%= index %></td>
+           
+            <td><%= cashItem.type %></td>
+            <td><%= cashItem.amount %></td>
+            <td><%= cashItem.income_source %></td>
+            <td><%= cashItem.exp_purpose %></td>
+            <% const dateObj = new Date(cashItem.createdAt)
+            const formatted = dateObj.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'long', // or '2-digit' for numbers
+                year: 'numeric'
+              }); 
+
+            %>
+            <td><%= formatted %></td>
+            <td>
+                <small class="edit"><i class="fa-solid fa-pen-to-square"></i></i></small>
+                <small class="delete"><i class="fa-solid fa-trash"></i></small>
+            </td>
+        </tr>
+    <% }else{ %>
+        <tr class="bg-warning">
+            <td scope="row"><%= index %></td>
+           
+            <td><%= cashItem.type %></td>
+            <td><%= cashItem.amount %></td>
+            <td><%= cashItem.income_source %></td>
+            <td><%= cashItem.exp_purpose %></td>
+            <% const dateObj = new Date(cashItem.createdAt)
+            const formatted = dateObj.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'long', // or '2-digit' for numbers
+                year: 'numeric'
+              }); 
+
+            %>
+            <td><%= formatted %></td>
+            <td>
+                <small class="edit"><i class="fa-solid fa-pen-to-square"></i></i></small>
+                <small class="delete"><i class="fa-solid fa-trash"></i></small>
+            </td>
+        </tr>
+        <% } %>
+</body>
+</html>

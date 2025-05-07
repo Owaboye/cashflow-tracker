@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="fontawesome-free-6.7.2-web/css/all.min.css">
+</head>
+<body>
+   <div class="container pt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto mb-5">
+            <% 
+                let totalIncome = 0
+                let totalExp = 0
+            
+            if(countItem > 0){ 
+                
+                cashFlows.forEach( (cashItem, index) => {  
+                   if(cashItem.type == 'Income'){ 
+                        totalIncome += parseFloat(cashItem.amount)
+                    }else{
+                        totalExp += parseFloat(cashItem.amount)
+                     } 
+                }) 
+            } %>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <button class="btn btn-outline-success">Total Income: <%= totalIncome %><span class="badge bg-secondary" id="inc"></span> </button> 
+                    <button class="btn btn-outline-danger">Total Expenses <%= totalExp %><span class="badge bg-secondary" id="exp"></span></button>
+                </div>
+                <!-- <div class="card-body">
+                    <form id="form" class="close">
+                        <div class="form-group mb-3">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" class="form-control" placeholder="Add Amount">
+                         
+                            
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="amount">Description</label>
+                            <input type="text" id="description" class="form-control" placeholder="Description">
+                         
+                            
+                        </div>
+                          <div class="form-group mb-3">
+                            <label for="type">Select Type</label>
+                            
+                            <select class="form-select" name="" id="type">
+                                <option value="Income">Income</option>
+                                <option value="Expenses">Expenses</option>
+                            </select>
+                         
+                           
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Submit</button>
+                          </div>
+                    </form>
+                    
+                </div> -->
+            </div>
+        </div>
+        
+    </div>
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        Cash Flow Management <button class="btn btn-success" id="openClose">Open</button>
+                    </div>
+                    <div class="card-body">
+                        <form id="form" class="close" method="post" action="/user/cashflow">
+                            <div class="row">
+                                <div class="form-group mb-3 col-md-6">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" id="amount" name="amount" class="form-control" placeholder="Add Amount">
+                                </div>
+
+                                <div class="form-group mb-3 col-md-6">
+                                    <label for="type">Cash flow Type</label>
+                                    <select class="form-select" name="type" id="type">
+                                        <option value="">Select Type</option>
+                                        <option value="Income">Income</option>
+                                        <option value="Expenses">Expenses</option>
+                                    </select>
+                                  </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="amount">Description</label>
+                                <input type="text" name="description" id="description" class="form-control" placeholder="Description">
+                             
+                                
+                            </div>
+                              <div class="form-group mb-3 hide">
+                                <label for="exp-purpose" class="form-label">Expenses Purpose</label>
+                                <input type="text" class="form-control" name="exp_purpose" id="exp-purpose">
+                              </div>
+                              <div class="form-group mb-3 hide">
+                                <label for="incomeSource" class="form-label">Income Source</label>
+                                <input type="text" name="income_source" class="form-control" id="incomeSource">
+                              </div>
+                              <div class="form-group">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Submit</button>
+                              </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <% if(countItem > 0){ %>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Income Source</th>
+                                    <th scope="col">Expenses Purpose</th>
+                                    <th scope="col">Date</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="output">
+                                  <% cashFlows.forEach( (cashItem, index) => {  %>
+                                    <tr class="table-striped">
+                                        <td scope="row"><%= index %></td>
+                                       
+                                        <td><%= cashItem.type %></td>
+                                        <td><%= cashItem.amount %></td>
+                                        <td><%= cashItem.income_source %></td>
+                                        <td><%= cashItem.exp_purpose %></td>
+                                        <% const dateObj = new Date(cashItem.createdAt)
+                                        const formatted = dateObj.toLocaleDateString('en-GB', {
+                                            day: '2-digit',
+                                            month: 'long', // or '2-digit' for numbers
+                                            year: 'numeric'
+                                          }); 
+                            
+                                        %>
+                                        <td><%= formatted %></td>
+                                        <td>
+                                            <small class="edit"><i class="fa-solid fa-pen-to-square"></i></i></small>
+                                            <small class="delete"><i class="fa-solid fa-trash"></i></small>
+                                        </td>
+                                    </tr>
+                                   
+                                  <% }) %>
+                                  
+                                 
+                                </tbody>
+                            </table>
+                        <% } else{ %>
+                            <p>No record found</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+
+   <script src="js/main.js"></script>
+</body>
+</html>
